@@ -3,7 +3,7 @@ import { useState,useRef,useEffect } from "react"
 import {nanoid} from "nanoid"
 // import { useWindowSize } from 'react-use'
 import Confetti from 'react-confetti'
-
+import winSound from '../assets/audio.mp3'
 
 export default function Main(){
     const [dice,setDice] = useState(()=> generateNewDice())
@@ -12,6 +12,14 @@ export default function Main(){
     const gameWon = dice.every(die => die.isHeld) &&
     dice.every(die => die.value === dice[0].value)
    
+    useEffect(() => {
+        if (gameWon) {
+            const audio = new Audio(winSound);
+            audio.play();
+        }
+    }, [gameWon]);
+
+
     useEffect(()=>{
         if(gameWon){
             buttonRef.current.focus()
